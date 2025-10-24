@@ -7,7 +7,7 @@ $posts = get_posts($args);
 <ul class="post-list">
     <?php foreach ($posts as $p) { ?>
         <li>
-            <a href="<?= get_permalink($p) ?>"><?= $p->post_title ?>
+            <a href="<?= get_permalink($p) ?>"><?= apply_filters('the_title', $p->post_title) ?>
                 <time><?= wp_date('j F Y', strtotime($p->post_date))  ?></time>
             </a>
         </li>

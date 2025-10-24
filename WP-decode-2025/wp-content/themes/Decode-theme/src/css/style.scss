@@ -1,0 +1,27 @@
+/*
+Theme Name: Decode-theme
+Theme URI: https://ecole-decode.fr/decode-theme
+Author: Edouard :)
+Author URI: https://edouard.com
+Description: Thème de démonstration WordPress personnalisé pour Decode 2025-2026.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: decode
+Tags: custom, responsive, blog, minimalist, top notch !!
+*/
+
+@use "vendor/modern-normalize";
+// pour le plaisir d'utiliser une lib tierse... ce serait plus opti de faire des composants custom
+@use "vendor/bootstrap-grid";
+
+@use "partials/colors";
+@use "partials/fonts";
+@use "partials/functions";
+@use "partials/globals";
+@use "partials/post";
+
+@use "components/header";
+@use "components/footer";
+@use "components/identity-card";
+@use "components/post-list";

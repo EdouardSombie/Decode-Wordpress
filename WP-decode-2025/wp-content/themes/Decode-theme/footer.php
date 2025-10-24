@@ -1,9 +1,10 @@
-        <footer>
+        <footer class="site-footer">
             © 2025 Decode
         </footer>
-        <?php 
+        <?php
         /* déclenchement du hook wp_footer */
-        wp_footer(); 
+        wp_footer();
         ?>
-    </body>
-</html>
+        </body>
+
+        </html>

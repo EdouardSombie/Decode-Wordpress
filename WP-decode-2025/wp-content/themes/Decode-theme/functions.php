@@ -19,6 +19,20 @@ function decode_after_setup_theme()
     );
 }
 
+add_filter('the_title', 'decode_the_title');
+function decode_the_title($title)
+{
+    $title = strtoupper($title);
+    return $title;
+}
+
+add_filter('the_content', 'decode_the_content');
+function decode_the_content($content)
+{
+    $content = $content . '<div>NAV Réseaux sociaux</div>';
+    return $content;
+}
+
 function decode_getIcon($name)
 {
 

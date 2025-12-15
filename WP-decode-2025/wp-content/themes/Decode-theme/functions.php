@@ -19,20 +19,6 @@ function decode_after_setup_theme()
     );
 }
 
-add_filter('the_title', 'decode_the_title');
-function decode_the_title($title)
-{
-    $title = strtoupper($title);
-    return $title;
-}
-
-add_filter('the_content', 'decode_the_content');
-function decode_the_content($content)
-{
-    $content = $content . '<div>NAV Réseaux sociaux</div>';
-    return $content;
-}
-
 function decode_getIcon($name)
 {
 
@@ -51,4 +37,76 @@ function decode_getIcon($name)
 </svg>'
     ];
     return $icons[$name] ?? '';
+}
+
+
+// customizer de theme //
+
+add_action('customize_register', 'decode_customize_register');
+function decode_customize_register($wp_customize)
+{
+
+    // ajouter une section
+    $wp_customize->add_section('decode', [
+        'title' => __('Réglages Decode'),
+        'description' => __('Faites-vous plaisir !'),
+        'priority' => 0,
+        'capability' => 'edit_theme_options',
+    ]);
+
+    // ajouter un réglage
+    $wp_customize->add_setting('mainColor', [
+        'type' => 'theme_mod', // or 'option'
+        'capability' => 'edit_theme_options',
+        'default' => '#3f51b5',
+        'transport' => 'refresh', // or postMessage
+        'sanitize_callback' => 'sanitize_hex_color',
+    ]);
+
+    // ajouter un controle (color picker)
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'mainColor', [
+        'label' => __('Couleur principale', 'Decode'),
+        'section' => 'decode',
+    ]));
+
+    // ajouter un réglage
+    $wp_customize->add_setting('darkMode', [
+        'type' => 'theme_mod', // or 'option'
+        'capability' => 'edit_theme_options',
+        'default' => false,
+        'transport' => 'refresh', // or postMessage
+        'sanitize_callback' => 'decode_sanitize_bool',
+    ]);
+
+    // ajouter un controle (checkbox)
+    $wp_customize->add_control('darkMode', [
+        'type' => 'checkbox',
+        'section' => 'decode',
+        'label' => __('Mode sombre', 'Decode'),
+        'description' => __('Black is beautiful :)', 'Decode'),
+    ]);
+}
+
+function decode_sanitize_bool($value)
+{
+    return is_bool($value) ? $value : false;
+}
+
+
+// Application des réglages du customizer
+add_action('wp_head', 'decode_wp_head');
+function decode_wp_head()
+{
+    echo '<style>
+                :root{ --main-color: ' . get_theme_mod('mainColor') . '}
+        </style>';
+}
+
+add_filter('body_class', 'decode_body_class', 100, 1);
+function decode_body_class($classes)
+{
+    if (get_theme_mod('darkMode')) {
+        $classes[] = 'dark';
+    }
+    return $classes;
 }

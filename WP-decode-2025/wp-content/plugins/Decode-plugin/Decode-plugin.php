@@ -150,3 +150,35 @@ function decode_init()
 
     register_taxonomy('skill', ['project'], $args_skill);
 }
+
+
+// Déterminer le chemin par défaut du template d'un projet seul
+add_filter('template_include', 'decode_template_include');
+function decode_template_include($template)
+{
+    if (!file_exists(get_stylesheet_directory() . '/single-project.php') && is_single() && get_query_var('post_type') == 'project') {
+        $template = __DIR__ . '/templates/single-project.php';
+    }
+    return $template;
+}
+
+
+// Ajout d'un shortcode skills-list
+add_shortcode('skills-list', 'decode_skills_list');
+function decode_skills_list($attr)
+{
+    $skills = get_terms([
+        'taxonomy' => 'skill',
+        'hide_empty' => false,
+    ]);
+    $output = '';
+    if (!empty($attr['title'])) {
+        $output .= '<h2>' . $attr['title'] . '</h2>';
+    }
+    $output .= '<ul>';
+    foreach ($skills as $s) {
+        $output .= '<li><a href="' . get_term_link($s) . '">' . $s->name . '</a></li>';
+    }
+    $output .= '</ul>';
+    return $output;
+}

@@ -182,3 +182,22 @@ function decode_skills_list($attr)
     $output .= '</ul>';
     return $output;
 }
+
+add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
+
+    $queried = get_queried_object();
+    $blog_id = get_option('page_for_posts');
+
+    if ($item->ID == $blog_id) {
+        if (is_post_type_archive('project') || $queried->post_type == 'project') {
+        }
+    }
+
+    // Ajouter une classe personnalisée
+    echo '<pre>';
+    var_dump($queried);
+    $classes[] = 'custom-class';
+
+
+    return $classes;
+}, 10, 4);
